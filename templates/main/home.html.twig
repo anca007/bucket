@@ -1,7 +1,11 @@
 {% extends "base.html.twig" %}
 
 {% block body %}
-    <h1>Welcome to Bucket-List</h1>
+    <h1>Welcome to Bucket-List
+        {% if app.user %}
+            {{ app.user.userIdentifier | capitalize }}
+        {% endif %}
+    </h1>
 {% endblock %}
 
 {% block title %}

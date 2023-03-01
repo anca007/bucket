@@ -1,11 +1,10 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    <h2>Add a wish !</h2>
-    {{ form_start(wishForm) }}
-    {{ form_widget(wishForm) }}
-    <button>Add a wish</button>
-    {{ form_end(wishForm) }}
+    {% embed 'view/form/whisform.html.twig' with  %}
+        {% block formTitle %} Add a wish {% endblock %}
+        {% block buttonLabel %} Add a wish {% endblock %}
+    {% endembed %}
 {% endblock %}
 
 {% block title %}

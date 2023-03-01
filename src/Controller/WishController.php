@@ -2,9 +2,11 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use App\Entity\Wish;
 use App\Form\WishType;
 use App\Repository\WishRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,7 +41,7 @@ class WishController extends AbstractController
     {
         $wish = $wishRepository->find($id);
 
-        if(!$wish){
+        if (!$wish) {
             throw $this->createNotFoundException("Oops ! Wish not found !");
         }
 
@@ -49,14 +51,22 @@ class WishController extends AbstractController
     }
 
     #[Route('/add', name: 'add')]
+    //#[IsGranted("ROLE_USER")]
     public function add(Request $request, WishRepository $wishRepository): Response
     {
+        /**
+         * @var User $user
+         */
+        $user = $this->getUser();
+
         $wish = new Wish();
+        $wish->setAuthor($this->getUser()->getUserIdentifier());
+
         $wishForm = $this->createForm(WishType::class, $wish);
 
         $wishForm->handleRequest($request);
 
-        if($wishForm->isSubmitted() && $wishForm->isValid()){
+        if ($wishForm->isSubmitted() && $wishForm->isValid()) {
 
 //            $wish->setDateCreated(new \DateTime());
 //            $wish->setIsPublished(true);
@@ -72,19 +82,22 @@ class WishController extends AbstractController
         ]);
     }
 
+    #[Route('/update/{id}', name: 'update', requirements: ['id' => '\d+'])]
+    public function update(int $id, WishRepository $wishRepository): Response
+    {
+        $wish = $wishRepository->find($id);
 
+        if (!$wish) {
+            throw $this->createNotFoundException("Oops ! Wish not found !");
+        }
 
+        $wishForm = $this->createForm(WishType::class, $wish);
 
-
-
-
-
-
-
-
-
-
-
+        return $this->render('/wish/update.html.twig', [
+            'wish' => $wish,
+            'wishUpdateForm' => $wishForm->createView()
+        ]);
+    }
 
 
 }

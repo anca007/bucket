@@ -4,6 +4,7 @@
     <h2>Wish Detail</h2>
     
     <div>
+        <a href="{{ path('wish_update', {'id': wish.id}) }}"><button>Update</button></a>
         <h2>{{ wish.title }}</h2>
         <div>Description : {{ wish.description }}</div>
         <div>Author : {{ wish.author }}</div>
