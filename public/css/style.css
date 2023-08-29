@@ -1,0 +1,28 @@
+body{
+    background-color: cornflowerblue;
+}
+.container{
+    max-width: 1200px;
+    margin: auto;
+
+}
+
+.div-flex{
+    display: flex;
+    align-items: center;
+}
+
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    width: 35px;
+    margin-right: 5px;
+}
+
+main{
+    min-height: 82vh;
+}
+
