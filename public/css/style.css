@@ -26,3 +26,79 @@ main{
     min-height: 82vh;
 }
 
+
+.flex_between{
+    justify-content: space-between;
+}
+
+
+.link_button{
+    border: 2px solid blueviolet;
+    margin: 5px;
+    padding: 5px;
+    border-radius: 30% 5%;
+}
+
+a:hover {
+    color: #BC956B;
+}
+
+
+main {
+    flex: 1;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+    padding-left: 0;
+}
+
+nav li {
+    margin-right: 1rem; /*pourcentage de taille en fonction du zoom 1 rem = 10px pour zoom = 100%*/
+}
+
+
+
+
+
+
+
+label {
+    display: block;
+}
+
+input,
+select {
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+    width: 200px;
+    max-width: 50%;
+}
+
+textarea{
+    margin-bottom: 1rem;
+    box-sizing: border-box;
+    width: 400px;
+    height: 100px;
+}
+
+
+
+.flash {
+    padding: 20px;
+    font-weight: bold;
+    font-size: 1.4rem;
+    margin: 1rem 0;
+    border-radius: 5px;
+    color: #132135;
+}
+
+.flash-success {
+    background-color: lawngreen
+}
+
+.flash-error {
+    background-color: red
+}
+
