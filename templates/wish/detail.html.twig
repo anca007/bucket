@@ -2,5 +2,12 @@
 
 {% block body %}
     <h2>Detail of a whish</h2>
+
+    <div>
+        <h3>{{ wish.title }}</h3>
+        <p>Crée par {{ wish.author }} le {{ wish.dateCreated | date('Y-m-d') }}</p>
+        <p>{{ wish.description }}</p>
+    </div>
+
 {% endblock %}
 
