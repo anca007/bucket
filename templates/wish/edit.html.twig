@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    {% embed 'view/wish_form_view.html.twig' %}
+        {% block wishTitle %}
+            Modifier un souhait
+        {% endblock %}
+        {% block labelButtonForm %}
+            Modifier !
+        {% endblock %}
+    {% endembed %}
+{% endblock %}
+

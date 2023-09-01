@@ -5,7 +5,9 @@ namespace App\Entity;
 use App\Repository\WishRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
+#[ORM\HasLifecycleCallbacks]
 #[ORM\Entity(repositoryClass: WishRepository::class)]
 class Wish
 {
@@ -15,16 +17,20 @@ class Wish
     private ?int $id = null;
 
     #[ORM\Column(length: 250)]
+    #[Assert\NotBlank(message: "Le titre est obligatoire !")]
+    #[Assert\Length(max: 250, maxMessage: "Titre limité à {{ limit }} caractères !")]
     private ?string $title = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
     #[ORM\Column(length: 50)]
+    #[Assert\NotBlank(message: "L'auteur est obligatoire !")]
+    #[Assert\Length(max: 50, maxMessage: "Taille limitée à {{ limit }} caractères !")]
     private ?string $author = null;
 
     #[ORM\Column]
-    private ?bool $isPublished = false;
+    private ?bool $isPublished = true;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $dateCreated = null;
@@ -107,5 +113,10 @@ class Wish
         $this->dateUpdated = $dateUpdated;
 
         return $this;
+    }
+
+    #[ORM\PrePersist]
+    public function setDateAtValue(){
+        $this->setDateCreated(new \DateTime());
     }
 }
