@@ -5,7 +5,7 @@
 
     <div>
         {%for wish in wishes %}
-            <p><a href="{{ path('wish_detail', {'id': wish.id}) }}">{{ wish.title }}</a></p>
+            <p><a href="{{ path('wish_detail', {'id': wish.id}) }}">{{ wish.title }} [{{ wish.category.name }}]</a></p>
         {% else %}
             <h3>Pas de souhaits enregistrés !</h3>
         {% endfor %}
