@@ -3,6 +3,12 @@
         <li><a href="{{ path('main_home') }}">Accueil</a></li>
         <li><a href="{{ path('main_about') }}">About</a></li>
         <li><a href="{{ path('wish_list') }}">Liste des souhaits</a></li>
-        <li><a href="{{ path('wish_add') }}">Ajouter un souhait</a></li>
+        {% if app.user %}
+            <li><a href="{{ path('wish_add') }}">Ajouter un souhait</a></li>
+            <li><a href="{{ path('app_logout') }}">Logout</a></li>
+        {% else %}
+            <li><a href="{{ path('app_login') }}">Login</a></li>
+            <li><a href="{{ path('app_register') }}">Register</a></li>
+        {% endif %}
     </ul>
 </nav>

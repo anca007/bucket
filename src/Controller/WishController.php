@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 #[Route('/wish', name: 'wish_')]
 class WishController extends AbstractController
@@ -45,6 +46,7 @@ class WishController extends AbstractController
     }
 
     #[Route('/add', name: 'add')]
+    #[IsGranted("ROLE_USER")]
     public function add(Request $request, EntityManagerInterface $entityManager): Response
     {
         $wish = new Wish();
@@ -55,6 +57,7 @@ class WishController extends AbstractController
         if($wishForm->isSubmitted() && $wishForm->isValid()){
 
             //$wish->setDateCreated(new \DateTime());
+            $wish->setUser($this->getUser());
             $entityManager->persist($wish);
             $entityManager->flush();
 
@@ -68,12 +71,19 @@ class WishController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'edit')]
+    #[IsGranted("ROLE_USER")]
     public function edit(int $id,
                          WishRepository $wishRepository,
                          EntityManagerInterface $entityManager,
                          Request $request): Response
     {
+
         $wish = $wishRepository->find($id);
+
+        if($wish->getUser() != $this->getUser()){
+            throw $this->createAccessDeniedException("You can't edit this idea !");
+        }
+
         $wishForm = $this->createForm(WishType::class, $wish);
 
         $wishForm->handleRequest($request);
@@ -94,7 +104,10 @@ class WishController extends AbstractController
         ]);
     }
 
+
+
     #[Route('/delete/{id}', name: 'delete', requirements: ['id' => '[0-9]+'])]
+    #[IsGranted("ROLE_USER")]
     public function delete(int $id, WishRepository $wishRepository, EntityManagerInterface $entityManager): Response
     {
         $wish =$wishRepository->find($id);

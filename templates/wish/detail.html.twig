@@ -4,10 +4,18 @@
     <h2>Detail of a whish</h2>
 
     <div>
-        <a class="link_button" href="{{ path('wish_edit', {'id': wish.id}) }}">Modifier</a><a onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce souhait {{ wish.title}} ?')" class="link_button" href="{{ path('wish_delete', {'id': wish.id}) }}">Supprimer</a>
+        {% if app.user %}
+            {% if app.user == wish.user %}
+                <a class="link_button" href="{{ path('wish_edit', {'id': wish.id}) }}">Modifier</a>
+            {% endif %}
+            {% if app.user == wish.user or is_granted("ROLE_ADMIN") %}
+                <a onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce souhait {{ wish.title }} ?')"
+                   class="link_button" href="{{ path('wish_delete', {'id': wish.id}) }}">Supprimer</a>
+            {% endif %}
+        {% endif %}
         <h3>{{ wish.title }}</h3>
         <p>Catégorie : {{ wish.category.name }}</p>
-        <p>Crée par {{ wish.author }} le {{ wish.dateCreated | date('Y-m-d') }}</p>
+        <p>Crée par {{ wish.user.username }} le {{ wish.dateCreated | date('Y-m-d') }}</p>
         <p>{{ wish.description }}</p>
     </div>
 
